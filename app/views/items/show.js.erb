@@ -1,0 +1,5 @@
+$(".item_modal").remove();
+$("body").append(
+  '<%= escape_javascript(raw render "items/item_modal", item_list: @item_list, item: @item) %>'
+);
+$(".item_modal").modal().show();

@@ -1,0 +1,12 @@
+h2 Ваши списки
+
+- if @item_lists.present?
+  - @item_lists.each do |item_list|
+    = render 'item_list', item_list: item_list
+
+- unless @item_lists.present?
+  p Нет ни одного списка
+
+.clear
+
+= link_to 'Создать новый список', new_item_list_path, class: "btn btn-default"

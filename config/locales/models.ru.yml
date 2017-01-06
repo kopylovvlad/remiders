@@ -1,0 +1,27 @@
+ru:
+  activerecord:
+    models:
+      #model_name: name
+      item: Элемент списка
+      item_list: Список
+      user: Пользователь
+    attributes:
+      #model_name:
+        #attribute_name: Name
+      item:
+        title: Название
+        description: Описание
+        deadline: Крайний срок
+        priority: Приоритет
+        item_list: Список
+      item_list:
+        title: Название списка
+        color: Цвет списка
+        public: Публичный?
+        user: Пользователь
+        description: Описание
+      user:
+        email: E-mail
+        first_name: Имя
+        middle_name: Отчество
+        last_name: Фамилия

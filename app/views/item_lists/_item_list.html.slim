@@ -1,0 +1,17 @@
+.col-xs-12.col-sm-6.col-md-4.col-lg-3
+  div class="panel #{item_list.color_class}"
+    .panel-heading
+      h3.panel-title
+        = link_to item_list.title, item_list_path(item_list)
+        .panel-icons
+          = link_to edit_item_list_path(item_list) do
+            = render_glyphicon("pencil")
+
+          = link_to item_list_path(item_list), method: :delete, data: {confirm: "Вы уверены?"} do
+            = render_glyphicon("remove")
+        .clear
+    .panel-body
+      - if item_list.description.present?
+        = item_list.description
+        br
+        

@@ -1,0 +1,36 @@
+Rails:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
+
+#документация классов и методов
+Style/Documentation:
+  Enabled: false
+
+#максимальное кол-во строк у метода
+#Metrics/MethodLength:
+#  Max: 30
+
+#исключения
+AllCops:
+  Exclude:
+    - config/initializers/secret_token.rb
+
+#не обращаем внимание на '' и ""
+StringLiterals:
+  Enabled: false
+
+#не обращать внимание на комменты
+Style/BlockComments:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+#разрешаем использовать and and or
+Style/AndOr:
+  Enabled: false

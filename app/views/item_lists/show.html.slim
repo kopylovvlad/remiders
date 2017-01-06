@@ -1,0 +1,40 @@
+= render "shared/breadcrumbs", breadcrumbs: { 'Мои списки' => item_lists_path }, title: "Список: #{@item_list.title}"
+
+.col-sm-2
+
+.col-sm-8
+  div class="panel #{@item_list.color_class}"
+    .panel-heading
+      h3.panel-title
+        = @item_list.title
+        .panel-icons
+          - if @item_list.user == current_user
+            = link_to edit_item_list_path(@item_list) do
+              = render_glyphicon("pencil")
+
+            = link_to item_list_path(@item_list), method: :delete, data: {confirm: "Вы уверены? При удалении списка удалятся все элементы списка!"} do
+              = render_glyphicon("remove")
+        .clear
+    .panel-body
+      - if @item_list.description.present?
+        = @item_list.description
+      
+      .list_form.mt-10
+        - if @item_list.user == current_user
+          = simple_form_for [@item_list, @item], remote: :true do |f|
+            div.form-group
+              = f.input :title, input_html: {class: "form-control"}, label: false
+              = f.submit "Добавить", class: "btn btn-default"
+              .clear
+      
+      .list-group
+        - if @item_list.items.present?
+          - @item_list.items.each do |item|
+            = render "items/item", item_list: @item_list, item: item
+
+.col-sm-2
+
+
+javascript:
+  ItemJS.init();
+  ItemModalJS.init();

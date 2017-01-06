@@ -1,0 +1,10 @@
+
+h1 Добро пожаловать!
+
+- if current_user.present?
+  = link_to "Открыть списки", item_lists_path
+- else
+  p Для пользования системой необходимо зарегистрироваться или войти в свой аккаунт
+    
+  =< link_to 'Регистрация', new_user_registration_path, class: "btn btn-default"
+  =< link_to 'Войти', new_user_session_path, class: "btn btn-default"

@@ -1,0 +1,5 @@
+= render "shared/breadcrumbs", breadcrumbs: { 'Мои списки' => item_lists_path }, title: 'Редактирование списка'
+
+= render "form"
+br
+= link_to 'Удалить список', item_list_path(@item_list), method: :delete, data: {confirm: "Вы уверены?"}

@@ -1,0 +1,74 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+#main_content{
+  margin-top: 55px;
+  min-height: 600px;
+}
+#breadcrumbs{
+  margin-top: 15px;
+}
+.clear{
+  clear: both;
+}
+
+.panel-heading .panel-title{
+  & > a{
+    float: left;
+    width: 80%;
+  }
+  .panel-icons{
+    float: right;
+    
+    a{
+      margin-right: 5px;
+    }
+  }
+}
+.panel-body .list_form .form-group{
+  input.form-control{
+    width: 70%;
+    float: left;
+  }
+  button.btn{
+    width: 30%;
+    float: left;
+  }
+}
+
+.list-group-item{
+  span.name{
+    float: left;
+    width: 82%;
+    word-break: break-all;
+
+    span.form{
+      display: none;
+    }
+    div.form-group.string{
+      width: 90%;
+      float: left;
+      margin-left: 2%;
+    }
+  }
+  .item_links{
+    float: right;
+
+    a{
+      margin-right: 5px;
+    }
+  }
+  div.form-group.boolean{
+    margin: 0px 0px 0px 0px;
+    width: 15px;
+    float: left;
+
+    div.checkbox{
+      margin: 0px 0px 0px 0px;
+    }
+  }
+}
+
+.mt-10{
+  margin-top: 10px;
+}

@@ -1,0 +1,18 @@
+div id="item_#{item.id}" class="list-group-item" data-active="false"
+  = simple_form_for [item_list, item], method: :patch, remote: :true do |f|
+    span.name
+      = f.input :is_done, label: false
+      = link_to item.title, [item_list, item], remote: true, class: "title"
+      span.form style="display: none;"
+        - if item_list.user == current_user
+          = f.input :title, class: "edit_item_input form-control", label: false
+    
+    .item_links
+      - if item_list.user == current_user
+        a.edit_item_link href="#" onclick="return false;"
+          = render_glyphicon("pencil")
+
+        = link_to [item_list, item], method: :delete, remote: true, data: {confirm: "Вы уверены?"} do
+          = render_glyphicon("remove")
+
+    .clear

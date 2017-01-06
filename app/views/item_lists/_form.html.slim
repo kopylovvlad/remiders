@@ -1,0 +1,15 @@
+= simple_form_for @item_list do |f|
+  .form-group
+    = f.input :title, as: :string, required: true
+
+  .form-group
+    = f.input :description, as: :text, class: "form-control"
+
+  .form-group
+    = f.input :public, as: :boolean
+
+  .form-group
+    = f.input :color, as: :select, collection: ItemList.colors_for_form(), selected: (f.object.color || 'red')
+  
+  .form-group
+    = f.button :submit, "Сохранить"

@@ -1,0 +1,23 @@
+<% if @is_done_changed %>
+
+  $("#item_<%= @item.id %>").remove();
+
+  <% if @item.is_done %>
+    $(".list-group").append("<%= escape_javascript( render 'items/item', item_list: @item_list, item: @item ) %>")
+  <% else %>
+    $(".list-group").prepend("<%= escape_javascript( render 'items/item', item_list: @item_list, item: @item ) %>")
+  <% end %>
+<% else %>
+
+$("#item_<%= @item.id %>").replaceWith("<%= escape_javascript( render 'items/item', item_list: @item_list, item: @item ) %>");
+
+<% end %>
+
+if( $("#item_modal_<%= @item.id %>").size() > 0 ){
+  $(".item_modal").remove();
+  $(".modal-backdrop").remove();
+  $("body").append(
+    '<%= escape_javascript(raw render "items/item_modal", item_list: @item_list, item: @item) %>'
+  );
+  $(".item_modal").modal('show');
+}

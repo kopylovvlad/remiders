@@ -1,0 +1,20 @@
+ru:
+  # form error messages
+  #model_name:
+    #attr_nam: Error
+
+  activerecord:
+    errors:
+      models:
+        #model_name:
+          #attributes:
+            #title:
+              #attribute_name: Error
+
+  item_list_color:
+    grey: Серый
+    deep blue: Синий
+    green: Зеленый
+    blue: Голубой
+    yellow: Желтый
+    red: Красный

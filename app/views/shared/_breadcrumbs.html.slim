@@ -1,0 +1,13 @@
+#breadcrumbs
+  =< link_to 'Главная', root_path
+  =< '/'
+  
+  - if breadcrumbs.present?
+    - breadcrumbs.each do |text, link|
+      =< link_to text, link
+      =< '/'
+  
+  span
+    =< title
+  .clear
+br

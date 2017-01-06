@@ -1,0 +1,57 @@
+div id="item_modal_#{item.id}" class="item_modal modal fade" tabindex="-1" role="dialog"
+  .modal-dialog role="document"
+    .modal-content
+      .modal-header
+        button.close type="button" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h4.modal-title= item.title
+      
+      = simple_form_for [item_list, item], method: :patch, remote: :true do |f|
+        .modal-body
+        
+          div.form-group 
+            a.item_toggle href="javascript: void(0)" onclick="return false;"
+              strong Описание:
+            .item_wpar
+              .attribute_body
+                - if item.description.present?
+                  = simple_format item.description
+                - else
+                  ' Нет описания
+              .attribute_input style="display: none;"
+                = f.input :description, class: "form-control", label: false
+          
+          div.form-group
+            a.item_toggle href="javascript: void(0)" onclick="return false;"
+              strong Крайний срок:
+            .item_wpar
+              .attribute_body
+                - if item.deadline.present?
+                  =< item.deadline.strftime("%d-%m-%Y")
+                  - if Time.now > item.deadline
+                    br
+                    ' Крайний срок уже прошел =(
+                - else
+                  ' Не установлен
+              .attribute_input style="display: none;"
+                = f.date_field :deadline, class: "form-control", label: false
+          
+          div.form-group
+            a.item_toggle href="javascript: void(0)" onclick="return false;"
+              strong Приоритет:
+            .item_wpar
+              .attribute_body
+                - if item.priority.present?
+                  =< item.priority_to_text
+                - else
+                  ' Нет приоритета
+              .attribute_input style="display: none;"
+                = f.input :priority, as: :select, collection: Item.priority_for_form(), label: false, selected: (f.object.priority || 0)
+          
+          div.form-group
+            strong Список:
+            =< link_to @item_list.title, item_list_path(@item_list)
+      
+        .modal-footer
+          button.btn.btn-default type="button" data-dismiss="modal" Закрыть
+          button.btn.btn-primary type="submit" Сохранить
