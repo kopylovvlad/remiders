@@ -15,27 +15,28 @@
 require 'rails_helper'
 
 RSpec.describe ItemList, type: :model do
-
   before :all do
     @first_user = FactoryGirl.create(:user)
     @second_user = FactoryGirl.create(:user)
 
-    @first_item_list = FactoryGirl.create(:item_list,
+    @first_item_list = FactoryGirl.create(
+      :item_list,
       title: "just test",
       color: 'green',
       description: 'some description',
       public: true,
-      user_id: @first_user.id)
+      user_id: @first_user.id
+    )
   end
 
   let(:item_list) { ItemList.new }
 
   describe 'validation' do
-
     it { should validate_presence_of(:title) }
-    it { should validate_inclusion_of(:color).
-        in_array ['grey', 'deep blue', 'green', 'blue', 'yellow', 'red'] }
-
+    it do
+      should validate_inclusion_of(:color)
+        .in_array(['grey', 'deep blue', 'green', 'blue', 'yellow', 'red'])
+    end
   end
 
   describe 'attributes' do
@@ -73,19 +74,24 @@ RSpec.describe ItemList, type: :model do
   end
 
   describe 'relations' do
-
     it { should have_many(:items) }
     it { should belong_to(:user) }
-
   end
 
   describe 'methods' do
     it 'has color list for form' do
-      expect(ItemList.colors_for_form).to eq([
-        ["Серый", "grey"], ["Синий", "deep blue"], ["Зеленый", "green"],
-        ["Голубой", "blue"], ["Желтый", "yellow"], ["Красный", "red"]
-      ])
+      expect(ItemList.colors_for_form).to(
+        eq(
+          [
+            %w(Серый grey),
+            ["Синий", "deep blue"],
+            %w(Зеленый green),
+            %w(Голубой blue),
+            %w(Желтый yellow),
+            %w(Красный red)
+          ]
+        )
+      )
     end
   end
-
 end

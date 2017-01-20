@@ -1,14 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-
   it 'can register' do
     post user_registration_path, user: {
       email: "mega_hard_email@tmail.com",
       password: "mega_hard_password",
       password_confirmation: "mega_hard_password",
       first_name: "Петр",
-      last_name: "Иванов",
+      last_name: "Иванов"
     }
 
     expect(response).to redirect_to(root_path)
@@ -21,7 +20,8 @@ RSpec.describe "Users", type: :request do
   end
 
   it 'can update profile' do
-    user = FactoryGirl.create(:user,
+    user = FactoryGirl.create(
+      :user,
       email: "mega_hard_email2@tmail.com",
       password: "mega_hard_password",
       password_confirmation: "mega_hard_password",
@@ -46,5 +46,4 @@ RSpec.describe "Users", type: :request do
     expect(updated_user.first_name).to eq("Алексей")
     expect(updated_user.last_name).to eq("Петров")
   end
-
 end

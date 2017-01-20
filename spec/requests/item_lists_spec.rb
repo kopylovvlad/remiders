@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "ItemLists for auth user", type: :request do
-
   before(:each) do
     @user = FactoryGirl.create(:user)
     sign_in @user
@@ -23,7 +22,8 @@ RSpec.describe "ItemLists for auth user", type: :request do
   end
 
   it 'can show item_list' do
-    item_list = FactoryGirl.create(:item_list,
+    item_list = FactoryGirl.create(
+      :item_list,
       title: "Название списка",
       user_id: @user.id
     )
@@ -50,10 +50,10 @@ RSpec.describe "ItemLists for auth user", type: :request do
     expect(ItemList.first.title).to eq("Create by post-request")
   end
 
-
   describe 'owner.' do
     it 'can update existing item_list' do
-      item_list = FactoryGirl.create(:item_list,
+      item_list = FactoryGirl.create(
+        :item_list,
         title: "Some item_list",
         color: "yellow",
         public: false,
@@ -74,7 +74,6 @@ RSpec.describe "ItemLists for auth user", type: :request do
       expect(response.code).to eq("200")
       expect(response.body).to include("Список удачно обновлен")
 
-
       expect(ItemList.first.title).to eq("Create by patch-request")
       expect(ItemList.first.color).to eq("green")
       expect(ItemList.first.public).to eq(true)
@@ -82,7 +81,8 @@ RSpec.describe "ItemLists for auth user", type: :request do
     end
 
     it 'can delete existing item_list' do
-      item_list = FactoryGirl.create(:item_list,
+      item_list = FactoryGirl.create(
+        :item_list,
         user_id: @user.id
       )
 
@@ -99,13 +99,13 @@ RSpec.describe "ItemLists for auth user", type: :request do
   end
 
   describe 'not owner.' do
-
     it 'can not update existing item_list' do
-      item_list = FactoryGirl.create(:item_list,
+      item_list = FactoryGirl.create(
+        :item_list,
         title: "Some item_list",
         color: "yellow",
         public: false,
-        description: "Some description",
+        description: "Some description"
       )
 
       patch item_list_path(item_list), item_list: {
@@ -144,7 +144,8 @@ RSpec.describe "ItemLists for auth user", type: :request do
 
     it 'can see foreigner public item_list' do
       first_user  = FactoryGirl.create(:user)
-      item_list   = FactoryGirl.create(:public_list,
+      item_list   = FactoryGirl.create(
+        :public_list,
         title: "it's public item_list",
         user_id: first_user.id
       )
@@ -156,7 +157,10 @@ RSpec.describe "ItemLists for auth user", type: :request do
 
     it 'can not see foreigner not public item_list' do
       first_user  = FactoryGirl.create(:user)
-      item_list   = FactoryGirl.create(:item_list, user_id: first_user.id)
+      item_list   = FactoryGirl.create(
+        :item_list,
+        user_id: first_user.id
+      )
       get item_list_path(item_list)
 
       expect(response.code).to eq("302")
@@ -165,6 +169,5 @@ RSpec.describe "ItemLists for auth user", type: :request do
       follow_redirect!
       expect(response.code).to eq("200")
     end
-
   end
 end

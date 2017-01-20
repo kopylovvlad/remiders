@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "ItemLists for guest-user", type: :request do
   describe 'guest user can not' do
-
     it ' listing item_lists' do
       get item_lists_path
 
@@ -55,11 +54,12 @@ RSpec.describe "ItemLists for guest-user", type: :request do
     end
 
     it ' update existing item_list' do
-      item_list = FactoryGirl.create(:item_list,
+      item_list = FactoryGirl.create(
+        :item_list,
         title: "Some item_list",
         color: "yellow",
         public: false,
-        description: "Some description",
+        description: "Some description"
       )
 
       patch item_list_path(item_list), item_list: {
@@ -89,19 +89,19 @@ RSpec.describe "ItemLists for guest-user", type: :request do
       expect(response.code).to eq("200")
       expect(response.body).to include("Вам необходимо войти в систему или зарегистрироваться")
     end
-
   end
 
   describe 'guest user can' do
     it ' see public item_list' do
-      item_list = FactoryGirl.create(:public_list,
+      item_list = FactoryGirl.create(
+        :public_list,
         title: "Публичный список"
       )
 
       get item_list_path(item_list)
 
       expect(response.code).to eq("200")
-      expect(response.body).to include( item_list.title )
+      expect(response.body).to include(item_list.title)
     end
   end
 end

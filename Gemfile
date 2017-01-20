@@ -30,16 +30,15 @@ gem 'uglifier', '>= 1.3.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
-end
-
 group :development do
   gem "better_errors"
   gem 'rubocop'
   gem 'spring'
   gem 'web-console', '~> 2.0'
+
+  group :test do
+    gem 'byebug'
+  end
 end
 
 group :test do

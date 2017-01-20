@@ -20,18 +20,18 @@ RSpec.describe Item, type: :model do
     user = FactoryGirl.create(:user)
 
     FactoryGirl.create(:item_list, user_id: user.id)
-    @last_item_list = FactoryGirl.create(:item_list,
+    @last_item_list = FactoryGirl.create(
+      :item_list,
       title: 'Last Item List',
       color: 'green',
-      user_id: user.id)
+      user_id: user.id
+    )
   end
 
   let(:item) { Item.new }
 
   describe 'validation' do
-
     it { should validate_presence_of(:title) }
-
   end
 
   describe 'attributes' do
@@ -51,7 +51,7 @@ RSpec.describe Item, type: :model do
     end
 
     it 'has a deadline' do
-      deadline = DateTime.now + 10.days
+      deadline = DateTime.current + 10.days
       item = FactoryGirl.create(:item, deadline: deadline)
 
       expect(item.deadline).to eq(deadline)
@@ -75,17 +75,21 @@ RSpec.describe Item, type: :model do
 
   describe 'methods' do
     it 'has priority list for form' do
-      expect(Item.priority_for_form).to eq([
-        ["нет", "0"], ["низкий", "1"], ["средний", "2"],
-        ["высокий", "3"], ["очень высокий", "4"]
-      ])
+      expect(Item.priority_for_form).to(
+        eq(
+          [
+            %w(нет 0),
+            %w(низкий 1),
+            %w(средний 2),
+            %w(высокий 3),
+            ["очень высокий", "4"]
+          ]
+        )
+      )
     end
   end
 
   describe 'relations' do
-
     it { should belong_to(:item_list) }
-
   end
-
 end

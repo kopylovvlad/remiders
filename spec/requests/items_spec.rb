@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "Items. Auth user ", type: :request do
-
   before :all do
     @user = FactoryGirl.create(:user)
-    @item_list = FactoryGirl.create(:item_list,
+    @item_list = FactoryGirl.create(
+      :item_list,
       user_id: @user.id
     )
   end
@@ -17,14 +17,14 @@ RSpec.describe "Items. Auth user ", type: :request do
     sign_out @user
   end
 
-  it 'can create item'  do
-    date = Time.parse "2017-02-12"
+  it 'can create item' do
+    date = Time.zone.parse "2017-02-12"
 
     post item_list_items_path(@item_list), item: {
       title: "It's new item",
       description: "It's new desription",
       deadline: date.strftime("%Y-%m-%d"),
-      priority: 3,
+      priority: 3
     }
 
     expect(response).to redirect_to(item_list_path(@item_list))
@@ -40,17 +40,17 @@ RSpec.describe "Items. Auth user ", type: :request do
     expect(@item_list.items.first.is_done).to eq(false)
   end
 
-
   describe 'owner' do
     it 'can update item' do
-      date = Time.parse "2017-02-19"
+      date = Time.zone.parse "2017-02-19"
       item = @item_list.items.first
+
       patch item_list_item_path(@item_list, item), item: {
         title: "It's new title for item",
         description: "It's new desription for item",
         deadline: date.strftime("%Y-%m-%d"),
         priority: 2,
-        is_done: true,
+        is_done: true
       }
 
       expect(response).to redirect_to(item_list_path(@item_list))
@@ -78,31 +78,41 @@ RSpec.describe "Items. Auth user ", type: :request do
   end
 
   describe 'not owner' do
-    it 'can not update item' do
-      item = FactoryGirl.create(:item)
-
-      expect do
-        patch item_list_item_path(@item_list, item), item: {
-          title: "It's new title for item",
-          description: "It's new desription for item"
-        }
-      end.to raise_error(
-        ActiveRecord::RecordNotFound
+    let(:item_list) { FactoryGirl.create(:item_list) }
+    let(:item) do
+      FactoryGirl.create(
+        :item,
+        item_list: item_list
       )
+    end
 
-      expect(Item.find(item.id).id).to eq(item.id)
+    it 'can not update item' do
+      patch item_list_item_path(item_list, item), item: {
+        title: "It's new title for item",
+        description: "It's new desription for item"
+      }
+
+      expect(response).to redirect_to(item_lists_path)
+      follow_redirect!
+
+      expect(response.code).to eq("200")
+      expect(response.body).to include("Манипуляции доступны только над своими элементами")
+
+      expect(Item.find(item.id)).to eq(item)
+
+      expect(Item.find(item.id).title).to_not eq("It's new title for item")
+      expect(Item.find(item.id).description).to_not eq("It's new desription for item")
     end
     it 'can not destroy item' do
-      item = FactoryGirl.create(:item)
+      delete item_list_item_path(item_list, item)
 
-      expect do
-        delete item_list_item_path(@item_list, item)
-      end.to raise_error(
-        ActiveRecord::RecordNotFound
-      )
+      expect(response).to redirect_to(item_lists_path)
+      follow_redirect!
+
+      expect(response.code).to eq("200")
+      expect(response.body).to include("Манипуляции доступны только над своими элементами")
 
       expect(Item.find(item.id).id).to eq(item.id)
     end
   end
-
 end

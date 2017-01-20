@@ -18,7 +18,11 @@ Style/Documentation:
 #исключения
 AllCops:
   Exclude:
-    - config/initializers/secret_token.rb
+    - config/initializers/*
+    - bin/setup
+    - db/migrate/
+    - spec/rails_helper.rb
+    - spec/support/shared_db_connection.rb
 
 #не обращаем внимание на '' и ""
 StringLiterals:
@@ -33,4 +37,7 @@ Style/ClassAndModuleChildren:
 
 #разрешаем использовать and and or
 Style/AndOr:
+  Enabled: false
+
+Rails/HttpPositionalArguments:
   Enabled: false

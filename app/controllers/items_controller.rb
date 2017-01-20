@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item_list
+  before_action :only_owner, only: [:update, :destroy]
   before_action :set_item, only: [:show, :update, :destroy]
 
   def create
@@ -52,6 +53,11 @@ class ItemsController < ApplicationController
 
   def set_item_list
     @item_list = ItemList.find(params[:item_list_id])
+  end
+
+  def only_owner
+    return if current_user == @item_list.user
+    redirect_to item_lists_path, alert: 'Манипуляции доступны только над своими элементами' and return
   end
 
   def set_item

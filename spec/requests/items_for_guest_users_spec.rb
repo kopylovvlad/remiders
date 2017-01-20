@@ -3,10 +3,12 @@ require 'rails_helper'
 RSpec.describe "Items for guest user", type: :request do
   before :all do
     @user = FactoryGirl.create(:user)
-    @item_list = FactoryGirl.create(:item_list,
+    @item_list = FactoryGirl.create(
+      :item_list,
       user_id: @user.id
     )
-    @item = FactoryGirl.create(:item,
+    @item = FactoryGirl.create(
+      :item,
       item_list_id: @item_list.id
     )
   end
@@ -28,6 +30,7 @@ RSpec.describe "Items for guest user", type: :request do
       patch item_list_item_path(@item_list, @item), item: {
         title: "It's new title for item"
       }
+
       expect(response.code).to eq("302")
       expect(response).to redirect_to(new_user_session_path)
 
